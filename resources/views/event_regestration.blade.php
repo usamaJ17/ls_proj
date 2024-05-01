@@ -13,11 +13,13 @@
                     <a href="#"
                         class="flex flex-col items-center mx-auto bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-3xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                         <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
-                            src="{{ asset('image/' . $event->id . '.png') }}" alt="">
+                            src="{{ asset('storage/' . $event->image_path) }}" alt="">
                         <div class="flex flex-col justify-between p-4 leading-normal">
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 {{ $event->name }}</h5>
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $event->long }}</p>
+                                <h6 class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $event->speaker }}</h6>
+                                <h6 class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $event->start }}</h6>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $event->long }}</p>
                         </div>
                     </a>
 

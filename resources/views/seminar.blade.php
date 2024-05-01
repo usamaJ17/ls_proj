@@ -65,21 +65,27 @@
         </div>
     </div>
 
+    @foreach ($cards as $cardGroup)
     <div class="flex justify-center">
-        @foreach ($cards as $item)
+        @foreach ($cardGroup as $item)
         <div class="py-2">
             <div class="mx-auto sm:px-1 lg:px-1">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                         <a href="#">
-                            <img class="rounded-t-lg" src="{{ asset('image/'.$item->id.'.png') }}" alt="" />
+                            @if($item->image_path)
+                                <img class="rounded-t-lg" src="{{ asset('storage/' . $item->image_path) }}" alt="" />
+                            @else
+                            <img class="rounded-t-lg" src="#" alt="No Image Available" />
+                            @endif
                         </a>
                         <div class="p-5">
                             <a href="#">
-                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $item->title }}</h5>
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $item->name }}</h5>
                             </a>
+                            <p class="mb-2 text-base tracking-tight text-gray-900 dark:text-white">{{ $item->start }}</p>
                             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $item->short }}</p>
-                            <a href="{{ url('event_register?type='.$item->type) }}"
+                            <a href="{{ url('event_register?id='.$item->id) }}"
                                 class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 Register
                                 <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
@@ -95,6 +101,7 @@
         </div>
         @endforeach
     </div>
+    @endforeach
     
 
 </x-app-layout>

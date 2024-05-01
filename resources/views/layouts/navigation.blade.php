@@ -18,6 +18,11 @@
                     <x-nav-link :href="route('seminar')" :active="request()->routeIs('seminar')">
                         {{ __('Seminars') }}
                     </x-nav-link>
+                    @if (auth()->user()->role == 'admin')
+                        <x-nav-link :href="route('seminar.create')" :active="request()->routeIs('seminar.create')">
+                            {{ __('Add New Seminars') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 

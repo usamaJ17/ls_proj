@@ -16,7 +16,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/event_register', function (Request $req) {
-        $event = Event::where('type',$req->type)->first();
+        $event = Event::find($req->id);
         return view('event_regestration')->with(compact('event'));
     });
     Route::get('/dashboard', function () {
@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
         return view('dashboard')->with(compact('user_events'));
     })->name('dashboard');
     Route::get('/seminar', function () {
-        $cards = Event::all();
+        $cards = Event::all()->chunk(4);
         return view('seminar')->with(compact('cards'));
 
     })->name('seminar');
@@ -39,6 +39,32 @@ Route::middleware('auth')->group(function () {
         $event->save();
         return redirect()->route('dashboard')->with('success', 'Event registered successfully.');
     })->name('register_event');
+    Route::get('/seminar/create',function(){
+        return view('create_seminar');
+    })->name('seminar.create');
+    Route::post('/seminar/create',function(Request $request){
+        $request->validate([
+            'name' => 'required|string',
+        ]);
+        if ($request->hasFile('image')) {
+            // Upload the image
+            $imagePath = $request->file('image')->store('uploads/images', 'public');
+        } else {
+            $imagePath = null; // If no image is uploaded, set imagePath to null
+        }
+        // Save data to database
+        Event::create([
+            'name' => $request->name,
+            'speaker' => $request->speaker,
+            'short' => $request->short,
+            'long' => $request->long,
+            'link' => $request->link,
+            'image_path' => $imagePath,
+            'start' => $request->start,
+            'end' => $request->end
+        ]);
+        return redirect()->route('seminar')->with('success', 'Event registered successfully.');
+    })->name('seminar.store');
 });
 
 require __DIR__.'/auth.php';
